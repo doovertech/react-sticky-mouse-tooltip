@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const throttle = false
+
 class MouseTooltip extends React.PureComponent {
   static defaultProps = {
     visible: true,
@@ -28,11 +30,14 @@ class MouseTooltip extends React.PureComponent {
   }
 
   getTooltipPosition = ({ clientX: xPosition, clientY: yPosition }) => {
+    if (!throttle)
     this.setState({
       xPosition,
       yPosition,
       mouseMoved: true,
     });
+    throttle = true;
+    setTimeout(() => throttle = false, 50)
   };
 
   addListener = () => {
